@@ -11,8 +11,7 @@ export default function LoginPage() {
     const handleSubmit = (e) => {
         console.log(senha, matricula);
     }
-
-
+    
   return (
     <div className="w-screen bg-gradient-to-r from-[#006FEE] to-blue-900 h-screen flex items-center justify-center">
       <Card className="max-w-[480px] w-full">
