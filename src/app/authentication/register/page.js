@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react";
-import { Card, CardBody, Input, Button } from "@nextui-org/react";
+import { Card, CardBody, Input, Button, Modal, ModalContent, ModalHeader, ModalFooter } from "@nextui-org/react";
 import { useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 
