@@ -2,16 +2,35 @@
 import React from "react";
 import { Card, CardBody, Input, Button } from "@nextui-org/react";
 import Image from "next/image";
-import { useState } from "react";
 
-export default function Fila() {
+export default function LoginPage() {
   const [cpf, setCpf] = React.useState("");
+  const [cpfEnvio, setCpfEnvio] = React.useState("");
+
+  const formatarCPF = (valor) => {
+    // Remove qualquer caracter que não seja dígito
+    const cpfApenasDigitos = valor.replace(/\D/g, "");
+
+    // Aplica a máscara de CPF
+    return cpfApenasDigitos.replace(
+      /(\d{3})(\d{3})(\d{3})(\d{2})/,
+      "$1.$2.$3-$4"
+    );
+  };
+
+  const handleChange = (event) => {
+    const novoCPF = event.target.value;
+    setCpfEnvio(novoCPF);
+    const cpfFormatado = formatarCPF(novoCPF);
+    setCpf(cpfFormatado);
+  };
+
   const handleSubmit = async (event) => {
     if (!cpf) {
       alert("Preencha seu CPF");
       return;
     }
-    console.log("CPF:", cpf);
+
     try {
       const response = await fetch(
         "https://flask-production-75af.up.railway.app/filas",
@@ -21,7 +40,7 @@ export default function Fila() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            cpf: cpf,
+            cpf: cpfEnvio,
           }),
         }
       );
@@ -30,10 +49,11 @@ export default function Fila() {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      console.log("Usuário adicionado na fila");
+      console.log("O usuário entrou na fila!");
+      window.location.href = "/fila/final";
       setCpf("");
     } catch (error) {
-      console.error("Erro ao adicionar usuário na fila:", error);
+      alert(error.message);
     }
   };
 
@@ -59,9 +79,9 @@ export default function Fila() {
             </h1>
             <Input
               value={cpf}
-              onChange={(event) => setCpf(event.target.value)}
+              onChange={handleChange}
               className="mt-8 mb-4"
-              type="number"
+              type="text"
               label="CPF"
               isRequired
               maxLength={11}
