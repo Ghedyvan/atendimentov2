@@ -39,10 +39,10 @@ export default function LoginPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            crm,
-            nome,
-            especialidade,
-            senha,
+            crm: crm,
+            nome: nome,
+            especialidade: especialidade,
+            senha: senha,
           }),
         }
       );

@@ -2,7 +2,11 @@
 import React from "react";
 import { Card, CardBody, Input, Button } from "@nextui-org/react";
 import Image from "next/image";
-import { useState } from "react";
+
+const handleSubmit = async (event) => {
+  console.log("Usuário entrou na fila");
+  window.location.href = "/fila";
+};
 
 export default function userPage() {
   return (
