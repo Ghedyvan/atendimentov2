@@ -20,8 +20,6 @@ module.exports = {
   plugins: [
     nextui({
       defaultTheme: "light",
-      //forçar tema claro
-      dark: false,
     }),
   ],
 };
