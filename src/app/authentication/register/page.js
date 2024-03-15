@@ -12,7 +12,6 @@ import {
   ModalFooter,
   ModalBody,
 } from "@nextui-org/react";
-import { useDisclosure } from "@nextui-org/react";
 import Image from "next/image";
 
 export default function LoginPage() {
