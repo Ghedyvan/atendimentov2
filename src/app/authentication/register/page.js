@@ -125,8 +125,11 @@ export default function LoginPage() {
                 </p>
               </ModalBody>
               <ModalFooter>
-                <Button onClick={() => setOpen(false)} color="primary">
+                <Button onClick={() => setOpen(false)} color="danger" variant="light">
                   Fechar
+                </Button>
+                <Button onClick={() => window.location.href = '/authentication/login'} color="primary">
+                  Entrar
                 </Button>
               </ModalFooter>
             </>
