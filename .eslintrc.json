@@ -4,6 +4,6 @@
     "react/no-unescaped-entities": "off",
     "@next/next/no-page-custom-font": "off",
     //desativar regras do useEffect
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
   }
 }
