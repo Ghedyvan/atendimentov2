@@ -13,21 +13,51 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Dashboard({ children }) {
-
-  //Alternar o isActive no NavbarItem
   const [isActive, setIsActive] = useState(false);
   const toggleIsActive = () => setIsActive(!isActive);
-  
+  const [crm, setCrm] = React.useState("");
+  const [nome, setNome] = React.useState("");
+  const [especialidade, setEspecialidade] = React.useState("");
 
+  // if(sessionStorage.getItem("medico") === null){
+  //   return(
+  //     window.location.href = "authentication/login"
+  //   )
+  // }
+
+  if(typeof window !== "undefined"){
+    const medico = JSON.parse(sessionStorage.getItem("medico"));
+    if(medico === null){
+      return(
+        window.location.href = "authentication/login"
+      )
+    }
+  
+  }
+
+  useEffect(() => {
+    const medico = JSON.parse(sessionStorage.getItem("medico"));
+    if (medico) {
+      setCrm(medico.crm);
+      setNome(medico.nome);
+      setEspecialidade(medico.especialidade);
+    }
+  }, []);
+
+  const encerrarSessao = () => {
+    sessionStorage.removeItem("medico");
+    window.location.href = "authentication/login";
+  }
+  
   return (
     <>
       <Navbar>
         <NavbarBrand>
-          <Image src="/oxemed.png" alt="Logo" width={150} height={150} />
+          <Image src="/oxemed.png" alt="Logo" width={150} height={150} priority />
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem>
@@ -67,10 +97,10 @@ export default function Dashboard({ children }) {
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Olá</p>
-                <p className="font-semibold">Alfredo Barros</p>
+                <p className="font-semibold">{nome}</p>
               </DropdownItem>
               <DropdownItem key="settings">Meu perfil</DropdownItem>
-              <DropdownItem key="logout" color="danger">
+              <DropdownItem key="logout" color="danger" onClick={() => encerrarSessao()}>
                 Sair
               </DropdownItem>
             </DropdownMenu>
