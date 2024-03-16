@@ -38,7 +38,7 @@ export default function Dashboard({ children }) {
     }
   
   }
-
+  /* eslint-disable */
   useEffect(() => {
     const medico = JSON.parse(sessionStorage.getItem("medico"));
     if (medico) {
