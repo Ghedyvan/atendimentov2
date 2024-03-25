@@ -13,8 +13,10 @@ import {
   ModalBody,
 } from "@nextui-org/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [crm, setCrm] = React.useState("");
   const [nome, setNome] = React.useState("");
   const [especialidade, setEspecialidade] = React.useState("");
@@ -104,10 +106,20 @@ export default function LoginPage() {
               label="Senha"
               isRequired
             />
-            <Button onClick={() => handleSubmit()}  size="lg" color="primary">
-              Cadastrar
-            </Button>
+            <div className=" flex space-x-5">
+              <Button onClick={() => handleSubmit()} size="lg" color="primary">
+                Cadastrar
+              </Button>
+            </div>
           </form>
+          <div className="flex justify-center pt-3">
+            <button
+              onClick={() => router.push("/authentication/login")}
+              className="text-blue-500"
+            >
+              Já possui uma conta? Faça login
+            </button>
+          </div>
         </CardBody>
       </Card>
 
@@ -120,15 +132,23 @@ export default function LoginPage() {
               </ModalHeader>
               <ModalBody>
                 <p className="text-black">
-                  Agora ele pode acessar o
-                  sistema com as credenciais.
+                  Agora ele pode acessar o sistema com as credenciais.
                 </p>
               </ModalBody>
               <ModalFooter>
-                <Button onClick={() => setOpen(false)} color="danger" variant="light">
+                <Button
+                  onClick={() => setOpen(false)}
+                  color="danger"
+                  variant="light"
+                >
                   Fechar
                 </Button>
-                <Button onClick={() => window.location.href = '/authentication/login'} color="primary">
+                <Button
+                  onClick={() =>
+                    (window.location.href = "/authentication/login")
+                  }
+                  color="primary"
+                >
                   Entrar
                 </Button>
               </ModalFooter>
@@ -137,14 +157,11 @@ export default function LoginPage() {
         </ModalContent>
       </Modal>
 
-
       <Modal isOpen={isOpenError}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 text-black">
-                
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1 text-black"></ModalHeader>
               <ModalBody className="flex flex-col gap-1 text-black">
                 Preencha todos os campos!
               </ModalBody>
