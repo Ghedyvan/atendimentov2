@@ -16,8 +16,11 @@ export default function Page() {
 
   const nextPatient = async () => {
     try {
+      if (data.length === 0) {
+        toast.error("Não há pacientes na fila");
+        return;
+      }
       setPacientesAtendidos([...pacientesAtendidos, data[0]]);
-      console.log("Chamando proximo paciente");
       const response = await fetch(
         "https://flask-production-75af.up.railway.app/chamar",
         {
@@ -27,7 +30,6 @@ export default function Page() {
           },
         }
       );
-      console.log("Paciente chamado:", response);
 
       const jsonData = await response.json();
       toast.success(jsonData.message, { duration: 3000 });
@@ -93,7 +95,9 @@ export default function Page() {
       </div>
       <div className="mt-8 col-span-6 col-start-4 rounded-md p-4 bg-gray-100">
         <div className="flex flex-row justify-between border-b items-center  border-gray-200">
-          <div className=" text-xl font-semibold">Paciente em Atendimento</div>
+          <div className=" text-xl font-semibold">
+            Proximo paciente a ser chamado
+          </div>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md"
             onClick={nextPatient}
@@ -119,7 +123,7 @@ export default function Page() {
             {data.slice(1).map((paciente, index) => (
               <TableRow key={index}>
                 <TableCell>{paciente.cpf}</TableCell>
-                <TableCell>{index + 1}</TableCell>
+                <TableCell>{index + 2}</TableCell>
               </TableRow>
             ))}
           </TableBody>
