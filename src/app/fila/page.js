@@ -50,13 +50,14 @@ export default function LoginPage() {
         }
       );
       if (response.status === 401) {
-        toast.error("CPF já cadastrado");
-        return;
+        toast.success("CPF já cadastrado");
       }
       if (response.status === 402) {
         toast.error("CPF inválido");
         return;
       }
+      localStorage.setItem("cpf", cpfApenasDigitos);
+
       router.push("/fila/final");
     } catch (error) {
       toast.error(error.message);
