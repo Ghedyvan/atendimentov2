@@ -56,7 +56,7 @@ export default function LoginPage() {
         <CardBody className="flex my-12 flex-col items-center justify-center">
           <Image src="/oxemed.png" alt="Logo" width={300} height={200} />
           <form action="submit" className="flex flex-col w-full max-w-[80%] items-center justify-center">
-            <Input value={crm} onChange={(event) => setCrm(event.target.value)} className="mt-8 mb-4" type="number" label="Crm" isRequired/>
+            <Input value={crm} onChange={(event) => setCrm(event.target.value)} className="mt-8 mb-4" type="text" label="CRM" isRequired/>
             <Input value={senha} onChange={(event) => setSenha(event.target.value)} className="mb-4" type="password" label="Senha" isRequired/>
             <Button
               onClick={() => handleSubmit()}
