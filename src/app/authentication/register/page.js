@@ -84,8 +84,8 @@ export default function LoginPage() {
               value={crm}
               onChange={(event) => setCrm(event.target.value)}
               className="mb-4"
-              type="number"
-              label="Crm"
+              type="text"
+              label="CRM"
               isRequired
             />
             <Input
