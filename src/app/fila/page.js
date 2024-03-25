@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardBody, Input, Button } from "@nextui-org/react";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
-  const [cpf, setCpf] = React.useState("");
-  const [cpfEnvio, setCpfEnvio] = React.useState("");
+  const router = useRouter();
+  const [cpf, setCpf] = useState("");
 
   const formatarCPF = (valor) => {
     // Remove qualquer caracter que não seja dígito
@@ -20,18 +22,21 @@ export default function LoginPage() {
 
   const handleChange = (event) => {
     const novoCPF = event.target.value;
-    setCpfEnvio(novoCPF);
     const cpfFormatado = formatarCPF(novoCPF);
     setCpf(cpfFormatado);
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
+
     if (!cpf) {
-      alert("Preencha seu CPF");
+      toast.error("Preencha seu CPF");
       return;
     }
 
     try {
+      const cpfApenasDigitos = cpf.replace(/\D/g, "");
+      console.log(cpfApenasDigitos);
       const response = await fetch(
         "https://flask-production-75af.up.railway.app/filas",
         {
@@ -40,26 +45,27 @@ export default function LoginPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            cpf: cpfEnvio,
+            cpf: cpfApenasDigitos,
           }),
         }
       );
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
+      if (response.status === 401) {
+        toast.error("CPF já cadastrado");
+        return;
       }
-      const data = await response.json();
-      console.log("O usuário entrou na fila!");
-      window.location.href = "/fila/final";
-      setCpf("");
+      if (response.status === 402) {
+        toast.error("CPF inválido");
+        return;
+      }
+      router.push("/fila/final");
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
-  const toggleForm = async (event) => {
-    var form = document.querySelector("form");
-    var btn = document.querySelector(".btn-iniciar");
+  const toggleForm = () => {
+    const form = document.querySelector("form");
+    const btn = document.querySelector(".btn-iniciar");
     form.classList.toggle("!hidden");
     btn.classList.toggle("!hidden");
   };
@@ -70,11 +76,10 @@ export default function LoginPage() {
         <CardBody className="flex my-12 flex-col items-center justify-center">
           <Image src="/oxemed.png" alt="Logo" width={300} height={200} />
           <form
-            action="submit"
             onSubmit={handleSubmit}
             className="flex flex-col w-full max-w-[80%] items-center justify-center !hidden"
           >
-            <h1 className="mt-8 font-bold  text-[#006FEE]">
+            <h1 className="mt-8 font-bold text-[#006FEE]">
               INSIRA SEU CPF PARA INGRESSAR NA FILA
             </h1>
             <Input
@@ -84,15 +89,15 @@ export default function LoginPage() {
               type="text"
               label="CPF"
               isRequired
-              maxLength={11}
+              maxLength={14} // Alterado para 14 para acomodar a máscara de CPF
             />
-            <Button onClick={() => handleSubmit()} size="lg" color="primary">
+            <Button size="lg" color="primary" onClick={handleSubmit}>
               Entrar
             </Button>
           </form>
           <div>
             <Button
-              onClick={() => toggleForm()}
+              onClick={toggleForm}
               size="lg"
               color="primary"
               className="btn-iniciar mt-12"
