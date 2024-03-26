@@ -1,13 +1,43 @@
-import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default function UserSelect() {
   return (
-    <div className="flex items-center justify-center w-screen h-screen flex-col gap-8">
-      <Link href="/authentication/login">Ir para tela de login</Link>
-      <Link href="/authentication/register">Ir para tela de cadastro</Link>
-      <Link href="/fila">Ir para tela de fila</Link>
+    <div className="flex flex-col w-full h-screen justify-center items-center bg-blue-600">
+      <div className=" bg-white rounded-md shadow-md p-10 text-center">
+        <h1 className="text-xl mb-12 items-center">
+          Selecione o{" "}
+          <span className="font-semibold text-">tipo de usuário:</span>
+        </h1>
+        <div className="flex w-full space-x-5 max-w-[450px] justify-between">
+          <Link
+            href={"/authentication/login"}
+            className="flex flex-col items-center border-blue-400 border-opacity-40 border p-8 rounded-3xl"
+          >
+            <Image
+              className="mb-4"
+              src={"/assets/pessoa2.svg"}
+              alt="Doutor"
+              width={130}
+              height={130}
+            />
+            <div className="text-lg">Colaborador</div>
+          </Link>
+          <Link
+            href={"/fila"}
+            className="flex flex-col items-center border-blue-400 border-opacity-40 border p-8 rounded-3xl"
+          >
+            <Image
+              className="mb-4"
+              src={"/assets/pessoa.svg"}
+              alt="Paciente"
+              width={130}
+              height={130}
+            />
+            <div className="text-lg">Paciente</div>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

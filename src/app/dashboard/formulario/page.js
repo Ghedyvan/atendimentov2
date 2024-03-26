@@ -73,7 +73,7 @@ export default function FormReceituario() {
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen">
+    <div className="flex items-center justify-center">
       <Card className="w-4/12">
         <CardBody>
           <div className="flex items-center justify-center">

@@ -60,10 +60,14 @@ export default function Dashboard({ children }) {
             priority
           />
         </NavbarBrand>
-        <NavbarContent
-          className="hidden sm:flex gap-4"
-          justify="center"
-        ></NavbarContent>
+        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          <NavbarItem>
+            <Link href="/dashboard">Home</Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link href="/dashboard/formulario">Receituário</Link>
+          </NavbarItem>
+        </NavbarContent>
 
         <NavbarContent as="div" justify="end">
           <Dropdown placement="bottom-end">
