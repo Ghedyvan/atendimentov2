@@ -1,16 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Card,
-  CardBody,
-  Input,
-  Button,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-} from "@nextui-org/react";
+import { Card, CardBody, Input, Button } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -37,20 +27,15 @@ export default function FormReceituario() {
   const [crm, setCrm] = React.useState("");
   const [nomeMedico, setNomeMedico] = React.useState("");
   const [nomePaciente, setNomePaciente] = React.useState("");
-  const [isOpen, setOpen] = React.useState(false);
-  const [isOpenError, setOpenError] = React.useState(false);
-
-  const onOpen = () => setOpen(true);
-  const onOpenError = () => setOpenError(true);
 
   const handleSubmit = async (event) => {
     if (!crm || !nomeMedico || !nomePaciente || !remedios.length) {
-      onOpenError();
+      toast.error("Preencha todos os campos");
       return;
     }
     try {
       const response = await fetch(
-        "https://flask-production-75af.up.railway.app/receituario",
+        "https://flask-production-99fc.up.railway.app/receituario",
         {
           method: "POST",
           headers: {
@@ -66,14 +51,9 @@ export default function FormReceituario() {
           }),
         }
       );
-
+      console.log("Receituario cadastrado com sucesso! 2");
+      const data = await response.text();
       toast.success("Receituario enviado com sucesso!");
-      const data = await response.json();
-      onOpen();
-      setCrm("");
-      setEspecialidade("");
-      setNome("");
-      setSenha("");
     } catch (error) {
       toast.error("Erro ao cadastrar médico");
     }
@@ -169,28 +149,6 @@ export default function FormReceituario() {
           </Button>
         </CardBody>
       </Card>
-      <Modal open={isOpen} onClose={() => setOpen(false)}>
-        <ModalContent>
-          <ModalHeader>Sucesso</ModalHeader>
-          <ModalBody>Receituario enviado com sucesso!</ModalBody>
-          <ModalFooter>
-            <Button onClick={() => setOpen(false)} color="primary">
-              Ok
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-      <Modal open={isOpenError} onClose={() => setOpenError(false)}>
-        <ModalContent>
-          <ModalHeader>Erro</ModalHeader>
-          <ModalBody>Preencha todos os campos!</ModalBody>
-          <ModalFooter>
-            <Button onClick={() => setOpenError(false)} color="primary">
-              Ok
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </div>
   );
 }
