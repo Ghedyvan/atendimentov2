@@ -51,8 +51,21 @@ export default function FormReceituario() {
           }),
         }
       );
-      console.log("Receituario cadastrado com sucesso! 2");
-      const data = await response.text();
+      const data = await response.blob(); // Convertendo a resposta em blob
+      const blobUrl = window.URL.createObjectURL(data); // Criando uma URL para o blob
+
+      // Criando um link para iniciar o download
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "receituario.pdf"; // Nome do arquivo para download
+      document.body.appendChild(link);
+
+      // Simulando um clique no link para iniciar o download
+      link.click();
+
+      // Removendo o link após o download
+      document.body.removeChild(link);
+
       toast.success("Receituario enviado com sucesso!");
     } catch (error) {
       toast.error("Erro ao cadastrar médico");
